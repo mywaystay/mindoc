@@ -11,13 +11,8 @@
     <link href="{{cdncss "/static/bootstrap/css/bootstrap.min.css"}}" rel="stylesheet">
     <link href="{{cdncss "/static/font-awesome/css/font-awesome.min.css"}}" rel="stylesheet">
     <link href="{{cdncss "/static/select2/4.0.5/css/select2.min.css"}}" rel="stylesheet">
-    <link href="{{cdncss "/static/css/main.css"}}" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="/static/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="/static/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="{{cdncss "/static/css/main.css" "version"}}" rel="stylesheet">
+
 </head>
 <body>
 <div class="manual-reader">
@@ -27,10 +22,11 @@
             <div class="page-left">
                 <ul class="menu">
                     <li><a href="{{urlfor "BookController.Dashboard" ":key" .Model.Identify}}" class="item"><i class="fa fa-dashboard" aria-hidden="true"></i> 概要</a> </li>
-                    <li class="active"><a href="{{urlfor "BookController.Users" ":key" .Model.Identify}}" class="item"><i class="fa fa-users" aria-hidden="true"></i> 成员</a> </li>
-                    {{if eq .Model.RoleId 0 1}}
+                {{if eq .Model.RoleId 0 1}}
+                    <li class="active"><a href="{{urlfor "BookController.Users" ":key" .Model.Identify}}" class="item"><i class="fa fa-user" aria-hidden="true"></i> 成员</a> </li>
+                    <li><a href="{{urlfor "BookController.Team" ":key" .Model.Identify}}" class="item"><i class="fa fa-group" aria-hidden="true"></i> 团队</a> </li>
                     <li><a href="{{urlfor "BookController.Setting" ":key" .Model.Identify}}" class="item"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a> </li>
-                    {{end}}
+                {{end}}
                 </ul>
 
             </div>
@@ -50,8 +46,9 @@
                         </template>
                         <template v-else>
                             <div class="list-item" v-for="item in lists">
-                                <img :src="item.avatar" onerror="this.src='/static/images/middle.gif'" class="img-circle" width="34" height="34">
+                                <img :src="item.avatar" onerror="this.src='{{cdnimg "/static/images/middle.gif"}}'" class="img-circle" width="34" height="34">
                                 <span>${item.account}</span>
+                                <span style="font-size: 12px;color: #484848" v-if="item.real_name != ''">[${item.real_name}]</span>
                                 <div class="operate">
                                     <template v-if="item.role_id == 0">
                                         创始人
